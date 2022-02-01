@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Course;
 
 /**
- * @Route("/courses", name="course_")
+ * @Route("/courses", name="courses_")
  */
 class CourseController extends AbstractController
 {

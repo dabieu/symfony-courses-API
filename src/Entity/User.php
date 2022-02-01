@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CourseRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CourseRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class Course
+class User
 {
     /**
      * @ORM\Id
@@ -22,25 +22,20 @@ class Course
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $email;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="boolean")
      */
-    private $startDate;
+    private $status;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $endDate;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="courseid")
+     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="userid", orphanRemoval=true)
      */
     private $registrations;
 
@@ -54,50 +49,38 @@ class Course
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): self
+    public function setName(string $name): self
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getEmail(): ?string
     {
-        return $this->description;
+        return $this->email;
     }
 
-    public function setDescription(string $description): self
+    public function setEmail(string $email): self
     {
-        $this->description = $description;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStatus(): ?bool
     {
-        return $this->startDate;
+        return $this->status;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStatus(bool $status): self
     {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
+        $this->status = $status;
 
         return $this;
     }
@@ -114,7 +97,7 @@ class Course
     {
         if (!$this->registrations->contains($registration)) {
             $this->registrations[] = $registration;
-            $registration->setCourseid($this);
+            $registration->setUserid($this);
         }
 
         return $this;
@@ -124,8 +107,8 @@ class Course
     {
         if ($this->registrations->removeElement($registration)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getCourseid() === $this) {
-                $registration->setCourseid(null);
+            if ($registration->getUserid() === $this) {
+                $registration->setUserid(null);
             }
         }
 

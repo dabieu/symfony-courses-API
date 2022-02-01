@@ -30,10 +30,10 @@ class Registration
     private $studentid;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="registrations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userid;
+    private $accountid;
 
     /**
      * @ORM\Column(type="date")
@@ -69,14 +69,14 @@ class Registration
         return $this;
     }
 
-    public function getUserid(): ?User
+    public function getAccountid(): ?Account
     {
-        return $this->userid;
+        return $this->accountid;
     }
 
-    public function setUserid(?User $userid): self
+    public function setAccountid(?Account $accountid): self
     {
-        $this->userid = $userid;
+        $this->accountid = $accountid;
 
         return $this;
     }

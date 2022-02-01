@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use App\Repository\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Entity(repositoryClass=AccountRepository::class)
  */
-class User
+class Account
 {
     /**
      * @ORM\Id
@@ -35,7 +35,7 @@ class User
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="userid", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="accountid", orphanRemoval=true)
      */
     private $registrations;
 
@@ -97,7 +97,7 @@ class User
     {
         if (!$this->registrations->contains($registration)) {
             $this->registrations[] = $registration;
-            $registration->setUserid($this);
+            $registration->setAccountid($this);
         }
 
         return $this;
@@ -107,8 +107,8 @@ class User
     {
         if ($this->registrations->removeElement($registration)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getUserid() === $this) {
-                $registration->setUserid(null);
+            if ($registration->getAccountid() === $this) {
+                $registration->setAccountid(null);
             }
         }
 

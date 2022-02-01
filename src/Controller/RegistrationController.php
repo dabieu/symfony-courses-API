@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Registration;
 use App\Entity\Course;
 use App\Entity\Student;
-use App\Entity\User;
+use App\Entity\Account;
 
 /**
  * @Route("/registrations", name="registrations_")
@@ -55,12 +55,12 @@ class RegistrationController extends AbstractController
 
         $course = $doctrine->getRepository(Course::class)->find($data['courseid']);
         $student = $doctrine->getRepository(Student::class)->find($data['studentid']);
-        $user = $doctrine->getRepository(User::class)->find($data['userid']);
+        $account = $doctrine->getRepository(Account::class)->find($data['accountid']);
 
         $registration = new Registration();
         $registration->setCourseid($course);
         $registration->setStudentid($student);
-        $registration->setUserid($user);
+        $registration->setAccountid($account);
         $registration->setRegistrationDate(new \DateTime('now', new \DateTimeZone('America/Sao_Paulo')));
 
         $manager = $doctrine->getManager();
@@ -91,9 +91,9 @@ class RegistrationController extends AbstractController
             $student = $doctrine->getRepository(Student::class)->find($data['studentid']);
             $registration->setStudentid($student);
 
-        if($request->request->has('userid'))
-            $user = $doctrine->getRepository(User::class)->find($data['userid']);
-            $registration->setUserid($user);
+        if($request->request->has('accountid'))
+            $account = $doctrine->getRepository(Account::class)->find($data['accountid']);
+            $registration->setAccountid($account);
 
         $manager = $doctrine->getManager();
         $manager->flush();

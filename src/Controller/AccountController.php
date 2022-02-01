@@ -6,34 +6,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\User;
+use App\Entity\Account;
 
 /**
- * @Route("/users", name="users_")
+ * @Route("/accounts", name="accounts_")
  */
-class UserController extends AbstractController
+class AccountController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
      */
     public function index(): Response
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $accounts = $this->getDoctrine()->getRepository(Account::class)->findAll();
 
         return $this->json([
-            'data' => $users
+            'data' => $accounts
         ]);
     }
 
     /**
-     * @Route("/{userId}", name="show", methods={"GET"})
+     * @Route("/{accountId}", name="show", methods={"GET"})
      */
-    public function show($userId)
+    public function show($accountId)
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $account = $this->getDoctrine()->getRepository(Account::class)->find($accountId);
 
         return $this->json([
-            'data' => $user
+            'data' => $account
         ]);
     }
 
@@ -44,14 +44,14 @@ class UserController extends AbstractController
     {
         $data = $request->request->all();
 
-        $user = new User();
-        $user->setName($data['name']);
-        $user->setEmail($data['email']);
-        $user->setStatus($data['status']);
+        $account = new Account();
+        $account->setName($data['name']);
+        $account->setEmail($data['email']);
+        $account->setStatus($data['status']);
 
         $doctrine = $this->getDoctrine()->getManager();
 
-        $doctrine->persist($user);
+        $doctrine->persist($account);
         $doctrine->flush();
 
         return $this->json([
@@ -60,23 +60,23 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{userId}", name="update", methods={"PUT", "PATCH"})
+     * @Route("/{accountId}", name="update", methods={"PUT", "PATCH"})
      */
-    public function update($userId, Request $request)
+    public function update($accountId, Request $request)
     {
         $data = $request->request->all();
         $doctrine = $this->getDoctrine();
 
-        $user = $doctrine->getRepository(User::class)->find($userId);
+        $account = $doctrine->getRepository(Account::class)->find($accountId);
 
         if($request->request->has('name'))
-            $user->setName($data['name']);
+            $account->setName($data['name']);
             
         if($request->request->has('email'))
-            $user->setEmail($data['email']);
+            $account->setEmail($data['email']);
 
         if($request->request->has('status'))
-            $user->setStatus($data['status']);
+            $account->setStatus($data['status']);
 
         $manager = $doctrine->getManager();
         $manager->flush();
@@ -88,15 +88,15 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{userId}", name="delete", methods={"DELETE"})
+     * @Route("/{accountId}", name="delete", methods={"DELETE"})
      */
-    public function delete($userId)
+    public function delete($accountId)
     {
         $doctrine = $this->getDoctrine();
-        $user = $doctrine->getRepository(User::class)->find($userId);
+        $account = $doctrine->getRepository(Account::class)->find($accountId);
 
         $manager = $doctrine->getManager();
-        $manager->remove($user);
+        $manager->remove($account);
         $manager->flush();
 
         return $this->json([

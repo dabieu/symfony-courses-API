@@ -39,16 +39,6 @@ class Student
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="studentid")
-     */
-    private $registrations;
-
-    public function __construct()
-    {
-        $this->registrations = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -98,36 +88,6 @@ class Student
     public function setStatus(bool $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Registration[]
-     */
-    public function getRegistrations(): Collection
-    {
-        return $this->registrations;
-    }
-
-    public function addRegistration(Registration $registration): self
-    {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations[] = $registration;
-            $registration->setStudentid($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistration(Registration $registration): self
-    {
-        if ($this->registrations->removeElement($registration)) {
-            // set the owning side to null (unless already changed)
-            if ($registration->getStudentid() === $this) {
-                $registration->setStudentid(null);
-            }
-        }
 
         return $this;
     }

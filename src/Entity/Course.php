@@ -39,16 +39,6 @@ class Course
      */
     private $endDate;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="courseid")
-     */
-    private $registrations;
-
-    public function __construct()
-    {
-        $this->registrations = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -98,36 +88,6 @@ class Course
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Registration[]
-     */
-    public function getRegistrations(): Collection
-    {
-        return $this->registrations;
-    }
-
-    public function addRegistration(Registration $registration): self
-    {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations[] = $registration;
-            $registration->setCourseid($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistration(Registration $registration): self
-    {
-        if ($this->registrations->removeElement($registration)) {
-            // set the owning side to null (unless already changed)
-            if ($registration->getCourseid() === $this) {
-                $registration->setCourseid(null);
-            }
-        }
 
         return $this;
     }

@@ -34,16 +34,6 @@ class Account
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="accountid", orphanRemoval=true)
-     */
-    private $registrations;
-
-    public function __construct()
-    {
-        $this->registrations = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -81,36 +71,6 @@ class Account
     public function setStatus(bool $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Registration[]
-     */
-    public function getRegistrations(): Collection
-    {
-        return $this->registrations;
-    }
-
-    public function addRegistration(Registration $registration): self
-    {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations[] = $registration;
-            $registration->setAccountid($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistration(Registration $registration): self
-    {
-        if ($this->registrations->removeElement($registration)) {
-            // set the owning side to null (unless already changed)
-            if ($registration->getAccountid() === $this) {
-                $registration->setAccountid(null);
-            }
-        }
 
         return $this;
     }

@@ -13,7 +13,7 @@ use App\Entity\Student;
 use App\Entity\Account;
 
 /**
- * @Route("/registrations", name="registrations_")
+ * @Route("/api/registrations", name="registrations_")
  */
 class RegistrationController extends AbstractController
 {

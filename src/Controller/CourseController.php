@@ -6,10 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Course;
 
 /**
- * @Route("/courses", name="courses_")
+ * @Route("/api/courses", name="courses_")
  */
 class CourseController extends AbstractController
 {

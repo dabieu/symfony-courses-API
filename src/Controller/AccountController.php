@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Account;
 
 /**
- * @Route("/accounts", name="accounts_")
+ * @Route("/api/accounts", name="accounts_")
  */
 class AccountController extends AbstractController
 {

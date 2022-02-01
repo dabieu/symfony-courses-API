@@ -44,6 +44,14 @@ class StudentController extends AbstractController
     public function create(Request $request)
     {
         $data = $request->request->all();
+        $doctrine = $this->getDoctrine()->getManager();
+
+        $birthYear =  intval(substr($data['birthdate'], 6));
+        $currentYear = intval(date("Y"));
+
+        if($currentYear - $birthYear < 16) {
+            return new Response('Not allowed to register students under 16 years old.', 400);
+        }
 
         $student = new Student();
         $student->setName($data['name']);
@@ -51,7 +59,6 @@ class StudentController extends AbstractController
         $student->setBirthdate(\DateTime::createFromFormat('d-m-Y', $data['birthdate']));
         $student->setStatus($data['status']);
 
-        $doctrine = $this->getDoctrine()->getManager();
 
         $doctrine->persist($student);
         $doctrine->flush();

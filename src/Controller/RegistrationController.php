@@ -57,11 +57,22 @@ class RegistrationController extends AbstractController
         $student = $doctrine->getRepository(Student::class)->find($data['studentid']);
         $account = $doctrine->getRepository(Account::class)->find($data['accountid']);
 
+        $currentDate = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
+        $courseStartDate = $course->getStartDate();
+
+        if($currentDate > $courseStartDate) {
+            return new Response('The course has already started', 400);
+        }
+
+        if($student->getStatus() == 0) {
+            return new Response('Student is inactive', 400);
+        };
+
         $registration = new Registration();
         $registration->setCourseid($course);
         $registration->setStudentid($student);
         $registration->setAccountid($account);
-        $registration->setRegistrationDate(new \DateTime('now', new \DateTimeZone('America/Sao_Paulo')));
+        $registration->setRegistrationDate($currentDate);
 
         $manager = $doctrine->getManager();
 

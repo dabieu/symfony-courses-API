@@ -51,7 +51,7 @@ Após clonar o repositório, entre na pasta do projeto e no seu terminal insira 
 
 ```
 
-docker-compose up
+docker-compose up -d
 
 ```
 

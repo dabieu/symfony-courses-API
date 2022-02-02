@@ -36,6 +36,21 @@ services:
         restart: always
         networks:
             - dev
+    
+    php:
+        # Apontando o arquivo de configuraçao do container do PHP
+        build: ./
+        container_name: php
+        # "Injetando diretórios" no container
+        volumes:
+            - ./:/var/www
+        links:
+            - db
+        # Indicando pro docker-compose que o container do mysql deve ser inicializado antes desse container
+        depends_on:
+            - db
+        networks:
+            - dev
 
 networks:
     dev:

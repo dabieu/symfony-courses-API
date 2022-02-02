@@ -18,4 +18,4 @@ RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar dom mbstri
 RUN pecl install apcu && docker-php-ext-enable apcu
 
 WORKDIR /var/www/
-RUN chown apache2:apache2 /var/www/
+#RUN chown apache2:apache2 /var/www/
